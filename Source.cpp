@@ -1,24 +1,22 @@
-#include "global.h"
-#include "MainScene.h"
+#include "Input.h"
+#include "Game.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
-	// DXライブラリ初期化
+	SetMainWindowText("absorb");
+	SetGraphMode(MyDx::FMX, MyDx::FMY, 32);
 	ChangeWindowMode(TRUE);
-	SetGraphMode(FMX, FMY, 32);
 	if (DxLib_Init() == -1)	return -1;
-	SetDrawScreen(DX_SCREEN_BACK); // 裏画面化
+	SetDrawScreen(DX_SCREEN_BACK);
 
-	// 初期化
-	MainScene mainScene;
-
-	// メインループ（60FPSなら1秒間に60回実行される）
+	Game game;
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		mainScene.update();
-		mainScene.draw();
-	}
+		Input::Update();
+		
+		if(game.Update() == -1) break;
+		game.Draw();
 
-	// DXライブラリ終了処理
+	}
 	DxLib_End();
 	return 0;
 }
