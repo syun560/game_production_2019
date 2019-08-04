@@ -20,10 +20,10 @@ bool SpaceObject::isCollided(const SpaceObject& obj) {
 
 Star::Star() {
 	ax = ay = vx = vy = 0.0;
-	vx = (double)(-5 + GetRand(10));
-	vy = (double)(-5 + GetRand(10));
-	x = (double)GetRand(MyDx::FMX);
-	y = (double)GetRand(MyDx::FMY);
+	vx = -3.0 + GetRand(600) / 100.0;
+	vy = -3.0 + GetRand(600) / 100.0;
+	x = (double)(100 + GetRand(MyDx::FMX - 200));
+	y = (double)(100 + GetRand(MyDx::FMY - 200));
 	double size = 0.8 + GetRand(100)/100.0;
 	r = 10.0 * size;
 	m = 1.0 * size;
@@ -99,7 +99,7 @@ void BlackHole::draw() {
 	//DrawFormatString((int)x, (int)y, MyDx::YELLOW, "(%d,%d)", (int)x, (int)y);
 }
 
-Scene1::Scene1() {
+Scene1::Scene1(int dlevel) {
 	// ÉçÅ[Éh
 	bg = LoadGraph("dat/img/bg_uchu_space.jpg");
 	img[0] = LoadGraph("dat/img/small_star1_blue.png");
@@ -112,13 +112,14 @@ Scene1::Scene1() {
 	img[7] = LoadGraph("dat/img/small_star8_red.png");
 	img[8] = LoadGraph("dat/img/small_star9_green.png");
 	img[9] = LoadGraph("dat/img/landmark_goryoukaku.png");
-	//for (int i = 0; i < 50; ++i) star.emplace_back();
 	gameCnt = 0;
+	level = dlevel;
+	for (int i = 0; i < level; ++i) star.emplace_back();
 	for (int i = 0; i < POWDER_MAX; ++i) {
 		powder[i].x = GetRand(MyDx::FMX);
 		powder[i].y = GetRand(MyDx::FMY);
 	}
-	PlayMusic("dat/music/uchuyuei.mp3", DX_PLAYTYPE_LOOP);
+	//PlayMusic("dat/music/uchuyuei.mp3", DX_PLAYTYPE_LOOP);
 }
 
 Scene1::~Scene1() {
@@ -130,7 +131,6 @@ int Scene1::Update() {
 	gameCnt++;
 	if (gameCnt == 1000) gameCnt = 500;
 	else if (gameCnt == 1128) {
-		MyDx::SetDrawBrightAll(255);
 		return -1;
 	}
 	if (gameCnt < 255) {
@@ -138,10 +138,11 @@ int Scene1::Update() {
 	}
 	else if (gameCnt > 1000) {
 		SetVolumeMusic((1128 - gameCnt) * 2);
+		if (Input::Key(KEY_INPUT_ESCAPE) == 1) return -1;
 	}
-	BaseScene::Update();
+	if(BaseScene::Update() == -4) return ++level;
 
-	if (Input::Key(KEY_INPUT_ESCAPE) == 1) {
+	if (Input::Key(KEY_INPUT_ESCAPE) == 1 && gameCnt < 1000) {
 		gameCnt = 1000;
 	}
 	if (Input::Key(KEY_INPUT_R) == 1) return -2;
@@ -149,16 +150,13 @@ int Scene1::Update() {
 	if (Input::Key(KEY_INPUT_M) == 1) star.emplace_back();
 	blackHole.update();
 
-	if (gameCnt % 10 == 0) {
-		star.emplace_back();
-	}
-
 	auto itr = star.begin();
 	while (itr != star.end()) {
 		itr->attracted(blackHole);
 		itr->update();
-		if (itr->isCollided(blackHole) || itr->vanished()) {
+		if ((itr->isCollided(blackHole) || itr->vanished()) && gameCnt > 122) {
 			itr = star.erase(itr);
+			BaseScene::Miss();
 		}
 		else itr++;
 	}

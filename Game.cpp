@@ -2,7 +2,11 @@
 
 Game::Game() {
 	scene = MAIN;
-	gameScene = new Scene1();
+	gameScene = new Scene1(1);
+}
+
+Game::~Game() {
+	delete gameScene;
 }
 
 int Game::Update() {
@@ -14,7 +18,7 @@ int Game::Update() {
 		else if (t == 0) return 0;
 		else {
 			scene = MAIN;
-			if(t == 1) gameScene = new Scene1();
+			gameScene = new Scene1(1);
 		}
 		break;
 	case MAIN:
@@ -26,10 +30,15 @@ int Game::Update() {
 		else if (g == -2) {
 			delete gameScene;
 			scene = MAIN;
-			if (t == 1) gameScene = new Scene1();
+			gameScene = new Scene1(t);
 		}
 		else if (g == -3) {
 			return -1;
+		}
+		else if (g > 0) {
+			delete gameScene;
+			scene = MAIN;
+			gameScene = new Scene1(g);
 		}
 		break;
 	}

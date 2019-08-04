@@ -43,15 +43,16 @@ public:
 
 class Scene1 : public BaseScene {
 	static const int IMG_MAX = 15;
-	static const int POWDER_MAX = 100;
+	static const int POWDER_MAX = 300;
 	int img[IMG_MAX];
 	TwinkleStar powder[POWDER_MAX];
 	int bg;
 	int gameCnt;
+	int level;
 	std::vector<Star> star;
 	BlackHole blackHole;
 public:
-	Scene1();
+	Scene1(int dlevel);
 	~Scene1();
 	int Update();
 	void Draw();
