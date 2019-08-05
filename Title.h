@@ -2,6 +2,7 @@
 #include "MyDx.h"
 
 class Title {
+	int level;
 public:
 	Title();
 	int Update();

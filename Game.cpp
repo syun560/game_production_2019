@@ -1,8 +1,8 @@
 #include "Game.h"
 
 Game::Game() {
-	scene = MAIN;
-	gameScene = new Scene1(1);
+	scene = TITLE;
+	//gameScene = new Scene1(1);
 }
 
 Game::~Game() {
@@ -18,7 +18,7 @@ int Game::Update() {
 		else if (t == 0) return 0;
 		else {
 			scene = MAIN;
-			gameScene = new Scene1(1);
+			gameScene = new Scene1(t);
 		}
 		break;
 	case MAIN:

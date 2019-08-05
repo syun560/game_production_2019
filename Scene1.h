@@ -27,18 +27,23 @@ public:
 	BlackHole();
 	void update();
 	void draw();
-	void resetPosition();
+	void inflate();
 };
 
 class Star : public SpaceObject{
 	double imgSize, imgAngle;
+	double sx, sy;
+	bool flag;
 	int type;
 public:
 	Star();
 	void attracted(const SpaceObject&);
 	bool vanished();
+	void stick(double dx, double dy);
 	void update();
 	void draw(int* img);
+
+	bool isSticked();
 };
 
 class Scene1 : public BaseScene {
@@ -48,7 +53,7 @@ class Scene1 : public BaseScene {
 	TwinkleStar powder[POWDER_MAX];
 	int bg;
 	int gameCnt;
-	int level;
+	int stickedNum, level, goal;
 	std::vector<Star> star;
 	BlackHole blackHole;
 public:
