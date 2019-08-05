@@ -22,8 +22,10 @@ void Title::Draw() {
 	MyDx::SetDrawBrightAll(255);
 	static const int LIST_X = 80;
 	static const int LIST_Y = 100;
-	DrawFormatString(30, 40, MyDx::WHITE, "absorb");
-	DrawFormatString(LIST_X, LIST_Y, MyDx::WHITE, "Level %d Start", level);
+	DrawFormatString(30, 40, MyDx::WHITE, "Save the stars");
+	DrawFormatString(LIST_X, LIST_Y, MyDx::WHITE, "Level %d StartÅiÅ© Å® to select levelÅj", level);
+	DrawFormatString(LIST_X, LIST_Y + 100, MyDx::WHITE, "Click to Start");
+
 	// DrawBox(LIST_X, LIST_Y + selectmode * 20, LIST_X + LIST_WIDTH, LIST_Y + (selectmode + 1) * 20, MyDx::YELLOW, FALSE);
 	// DrawFormatString(1, 1, MyDx::WHITE, "mode = %d, game = %d", selectmode, selectgame);
 }

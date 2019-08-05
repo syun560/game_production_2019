@@ -136,7 +136,8 @@ Scene1::Scene1(int dlevel) {
 	level = dlevel;
 	stickedNum = 0;
 	int ballNum = level * 2;
-	goal =  ballNum / 2;
+	goal =  ballNum / 3;
+	if(goal < 1) goal = 1;
 	for (int i = 0; i < ballNum; ++i) star.emplace_back();
 	for (int i = 0; i < POWDER_MAX; ++i) {
 		powder[i].x = GetRand(MyDx::FMX);
