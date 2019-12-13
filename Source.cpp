@@ -4,6 +4,7 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
 	SetMainWindowText("Save the stars");
+	// SetAlwaysRunFlag(TRUE);
 	SetGraphMode(MyDx::FMX, MyDx::FMY, 32);
 	ChangeWindowMode(TRUE);
 	if (DxLib_Init() == -1)	return -1;

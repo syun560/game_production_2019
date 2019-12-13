@@ -50,6 +50,7 @@ class Scene1 : public BaseScene {
 	static const int IMG_MAX = 15;
 	static const int POWDER_MAX = 300;
 	int img[IMG_MAX];
+	int se;
 	TwinkleStar powder[POWDER_MAX];
 	int bg;
 	int gameCnt;

@@ -100,8 +100,8 @@ BlackHole::BlackHole() {
 }
 
 void BlackHole::inflate() {
-	r *= 1.03;
-	m *= 1.03;
+	r *= 1.02;
+	m *= 1.02;
 }
 
 void BlackHole::update() {
@@ -112,8 +112,10 @@ void BlackHole::update() {
 }
 
 void BlackHole::draw() {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 212);
 	DrawCircle((int)x, (int)y, (int)(r * 1.2), GetColor(100, 100, 100), TRUE);
 	DrawCircle((int)x, (int)y, (int)r, MyDx::BLACK, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//DrawCircle((int)x, (int)y, (int)r, MyDx::RED, FALSE);
 	//DrawFormatString((int)x, (int)y, MyDx::YELLOW, "(%d,%d)", (int)x, (int)y);
 }
@@ -132,6 +134,7 @@ Scene1::Scene1(int dlevel) {
 	img[8] = LoadGraph("dat/img/small_star9_green.png");
 	img[9] = LoadGraph("dat/img/landmark_goryoukaku.png");
 	img[10] = LoadGraph("dat/img/alien_ufo.png");
+	se = LoadSoundMem("dat/se/cursor1.mp3");
 	gameCnt = 0;
 	level = dlevel;
 	stickedNum = 0;
@@ -148,6 +151,7 @@ Scene1::Scene1(int dlevel) {
 
 Scene1::~Scene1() {
 	InitGraph();
+	InitSoundMem();
 	StopMusic();
 }
 
@@ -183,6 +187,7 @@ int Scene1::Update() {
 		itr->update();
 		if (!itr->isSticked() && itr->isCollided(blackHole) && gameCnt > 60) {
 			itr->stick(blackHole.getX(), blackHole.getY());
+			PlaySoundMem(se, DX_PLAYTYPE_BACK);
 			blackHole.inflate();
 			stickedNum++;
 			itr++;
